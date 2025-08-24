@@ -2,6 +2,7 @@
 import storybook from 'eslint-plugin-storybook';
 
 import js from '@eslint/js';
+import prettierConfig from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
@@ -19,6 +20,7 @@ export default tseslint.config(
         tseslint.configs.recommended,
         reactHooks.configs['recommended-latest'],
         reactRefresh.configs.vite,
+        prettierConfig,
       ],
       languageOptions: {
         ecmaVersion: 2020,
@@ -47,24 +49,8 @@ export default tseslint.config(
             },
           },
         ],
-        'import/no-unresolved': 'error',
+        'import/no-unresolved': 'warn',
         'import/no-duplicates': 'error',
-
-        // Regras gerais de formatação
-        indent: ['error', 2],
-        quotes: ['error', 'single'],
-        semi: ['error', 'always'],
-        'comma-dangle': ['error', 'es5'],
-        'max-len': [
-          'error',
-          {
-            code: 80,
-            tabWidth: 2,
-            ignoreUrls: true,
-            ignoreStrings: true,
-            ignoreTemplateLiterals: true,
-          },
-        ],
 
         // Regras específicas do React
         'react/jsx-uses-react': 'off',
