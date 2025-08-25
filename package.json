@@ -13,7 +13,8 @@
     ".": {
       "import": "./dist/mistral-ui.js",
       "require": "./dist/mistral-ui.umd.cjs"
-    }
+    },
+    "./styles.css": "./lib/styles.css"
   },
   "scripts": {
     "dev": "vite",
