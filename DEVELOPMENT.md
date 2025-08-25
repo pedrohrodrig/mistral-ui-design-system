@@ -25,6 +25,13 @@ Este documento descreve as configurações de formatação e linting do projeto.
 - **Regras React**: Otimizadas
 - **Integração**: Compatível com Prettier
 
+### Pre-commit Hook
+
+- **Execução automática**: Antes de cada commit
+- **Formatação**: Prettier em arquivos modificados
+- **Linting**: ESLint com correções automáticas
+- **Bloqueio**: Commit cancelado se houver erros
+
 ## 📝 Scripts Disponíveis
 
 ### Formatação
@@ -45,6 +52,16 @@ npm run lint
 
 # Executar ESLint com correções automáticas
 npx eslint . --fix
+```
+
+### Pre-commit
+
+```bash
+# Executar pre-commit manualmente
+npm run pre-commit
+
+# Testar configuração de pre-commit
+npm run test:pre-commit
 ```
 
 ## 🔧 Configuração do VS Code
@@ -68,6 +85,8 @@ npx eslint . --fix
 - `.prettierrc` - Configurações do Prettier
 - `.prettierignore` - Arquivos ignorados pelo Prettier
 - `eslint.config.js` - Configurações do ESLint
+- `.lintstagedrc` - Configurações do lint-staged
+- `.husky/pre-commit` - Hook de pre-commit
 - `.vscode/settings.json` - Configurações do VS Code
 - `.vscode/extensions.json` - Extensões recomendadas
 
@@ -83,9 +102,15 @@ npx eslint . --fix
    - O ESLint mostrará warnings/errors em tempo real
 
 3. **Antes de commitar:**
+   - O pre-commit hook executará automaticamente
+   - Arquivos serão formatados e corrigidos automaticamente
+   - Se houver erros, o commit será bloqueado
+
+4. **Execução manual (se necessário):**
    ```bash
    npm run format
    npm run lint
+   npm run pre-commit
    ```
 
 ## ⚠️ Troubleshooting
