@@ -9,6 +9,7 @@ import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
+
 const dirname =
   typeof __dirname !== 'undefined'
     ? __dirname
@@ -19,7 +20,7 @@ export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   build: {
     lib: {
-      entry: resolve(__dirname, 'lib/index.ts'),
+      entry: resolve(__dirname, 'lib/main.ts'),
       name: 'mistral-ui',
       fileName: 'mistral-ui',
     },
