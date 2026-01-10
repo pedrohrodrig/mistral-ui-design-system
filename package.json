@@ -28,7 +28,7 @@
     "format:check": "prettier --check .",
     "prepare": "husky",
     "pre-commit": "lint-staged",
-    "test:pre-commit": "./scripts/test-pre-commit.sh"
+    "test": "vitest"
   },
   "dependencies": {
     "react": "^19.1.1",
