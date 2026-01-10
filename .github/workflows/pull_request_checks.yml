@@ -30,6 +30,10 @@ jobs:
         id: format
         run: npm run format:check
 
+      - name: Install Playwright browsers
+        id: playwright-install
+        run: npx playwright install --with-deps
+
       - name: Run tests
         id: test
         run: npm run test
