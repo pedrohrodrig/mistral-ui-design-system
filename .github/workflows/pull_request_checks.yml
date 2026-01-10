@@ -6,7 +6,7 @@ on:
 
 jobs:
   pr-check:
-    name: PR Check
+    name: Pull Request Check
     runs-on: ubuntu-latest
 
     steps:
@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version-file: '.nvmrc'
           cache: 'npm'
 
       - name: Install dependencies

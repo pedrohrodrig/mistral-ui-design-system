@@ -1,4 +1,4 @@
-name: Comment PR Results
+name: Comment Pull Request Results
 
 on:
   pull_request_target:
@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   comment:
-    name: Comment PR
+    name: Comment Pull Request Results
     runs-on: ubuntu-latest
 
     steps:
