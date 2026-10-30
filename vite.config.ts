@@ -23,12 +23,18 @@ export default defineConfig({
       fileName: 'mistral-ui',
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
+      external: [
+        'react',
+        'react-dom',
+        'react/jsx-runtime',
+        /^@base-ui\/react(\/.*)?$/,
+      ],
       output: {
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',
           'react/jsx-runtime': 'react/jsx-runtime',
+          '@base-ui/react/button': 'BaseUIButton',
         },
       },
     },
