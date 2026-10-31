@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, fn, userEvent } from 'storybook/test';
 
 import { Button } from './index';
 
@@ -10,7 +11,7 @@ const meta: Meta<typeof Button> = {
     docs: {
       description: {
         component:
-          'Um componente de botão reutilizável com diferentes variações de estilo e tamanho.',
+          'Um componente de botão reutilizável com diferentes variações de estilo e tamanho, construído sobre o primitive `Button` do Base UI.',
       },
     },
   },
@@ -33,10 +34,18 @@ const meta: Meta<typeof Button> = {
       control: { type: 'text' },
       description: 'O conteúdo do botão',
     },
+    focusableWhenDisabled: {
+      control: { type: 'boolean' },
+      description:
+        'Mantém o botão focável quando desabilitado (útil para estados de loading)',
+    },
     onClick: {
       action: 'clicked',
       description: 'Função chamada quando o botão é clicado',
     },
+  },
+  args: {
+    onClick: fn(),
   },
   tags: ['autodocs'],
 };
@@ -169,12 +178,80 @@ export const WithIcon: Story = {
   },
 };
 
-// Story com loading state
+// Story com loading state: continua focável para não perder o foco do teclado
 export const Loading: Story = {
   args: {
     children: 'Carregando...',
     variant: 'primary',
     size: 'md',
     disabled: true,
+    focusableWhenDisabled: true,
+  },
+};
+
+// Story renderizando outro elemento através da prop `render` do Base UI
+export const AsLink: Story = {
+  args: {
+    children: 'Ir para a documentação',
+    variant: 'outline',
+    nativeButton: false,
+    render: <a href='https://base-ui.com/react/components/button' />,
+  },
+};
+
+// Teste de interação: o clique dispara `onClick`
+export const ClickInteraction: Story = {
+  args: {
+    children: 'Clique',
+  },
+  play: async ({ args, canvas }) => {
+    await userEvent.click(canvas.getByRole('button', { name: 'Clique' }));
+    await expect(args.onClick).toHaveBeenCalledTimes(1);
+  },
+};
+
+// Teste de interação: botão desabilitado não dispara `onClick`
+export const DisabledInteraction: Story = {
+  args: {
+    children: 'Desabilitado',
+    disabled: true,
+  },
+  play: async ({ args, canvas }) => {
+    const button = canvas.getByRole('button', { name: 'Desabilitado' });
+    await expect(button).toBeDisabled();
+    await expect(button).toHaveAttribute('data-disabled');
+    await userEvent.click(button, { pointerEventsCheck: 0 });
+    await expect(args.onClick).not.toHaveBeenCalled();
+  },
+};
+
+// Teste de interação: `focusableWhenDisabled` mantém o foco sem disparar clique
+export const FocusableWhenDisabledInteraction: Story = {
+  args: {
+    children: 'Carregando...',
+    disabled: true,
+    focusableWhenDisabled: true,
+  },
+  play: async ({ args, canvas }) => {
+    const button = canvas.getByRole('button', { name: 'Carregando...' });
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    await expect(button).toHaveAttribute('aria-disabled', 'true');
+    await userEvent.click(button, { pointerEventsCheck: 0 });
+    await expect(args.onClick).not.toHaveBeenCalled();
+  },
+};
+
+// Teste: `className` do consumidor sobrescreve classes conflitantes (tailwind-merge)
+export const ClassNameOverride: Story = {
+  args: {
+    children: 'Customizado',
+    className: 'bg-red-600 px-8',
+  },
+  play: async ({ canvas }) => {
+    const button = canvas.getByRole('button', { name: 'Customizado' });
+    await expect(button).toHaveClass('bg-red-600', 'px-8');
+    await expect(button).not.toHaveClass('bg-blue-600');
+    await expect(button).not.toHaveClass('px-4');
   },
 };
