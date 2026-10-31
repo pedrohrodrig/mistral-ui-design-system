@@ -28,6 +28,8 @@ export default defineConfig({
         'react-dom',
         'react/jsx-runtime',
         /^@base-ui\/react(\/.*)?$/,
+        'tailwind-variants',
+        'tailwind-merge',
       ],
       output: {
         globals: {
@@ -35,6 +37,8 @@ export default defineConfig({
           'react-dom': 'ReactDOM',
           'react/jsx-runtime': 'react/jsx-runtime',
           '@base-ui/react/button': 'BaseUIButton',
+          'tailwind-variants': 'TailwindVariants',
+          'tailwind-merge': 'TailwindMerge',
         },
       },
     },

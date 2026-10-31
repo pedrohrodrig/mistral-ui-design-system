@@ -47,8 +47,11 @@ Convenções ao criar ou refatorar um componente:
   `className` como função do estado e as demais props do Base UI.
 - Estilize estados pelos data attributes do Base UI (`data-[disabled]`,
   `data-[pressed]`, `data-[open]`…) em vez de pseudo-classes como `:disabled`.
-- Combine classes com o helper `cn` (`lib/utils/cn.ts`), preservando o
-  `className` (string ou função) recebido do consumidor.
+- Defina variações e combine classes com
+  [tailwind-variants](https://www.tailwind-variants.org) (`tv`), que usa o
+  tailwind-merge para resolver conflitos. Repasse o `className` do consumidor
+  (string ou função do estado) para o `tv`, assim ele sobrescreve as classes
+  do componente.
 - `@base-ui/react` é tratado como dependência externa no build da lib.
 
 ## 📝 Scripts Disponíveis

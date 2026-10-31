@@ -241,3 +241,17 @@ export const FocusableWhenDisabledInteraction: Story = {
     await expect(args.onClick).not.toHaveBeenCalled();
   },
 };
+
+// Teste: `className` do consumidor sobrescreve classes conflitantes (tailwind-merge)
+export const ClassNameOverride: Story = {
+  args: {
+    children: 'Customizado',
+    className: 'bg-red-600 px-8',
+  },
+  play: async ({ canvas }) => {
+    const button = canvas.getByRole('button', { name: 'Customizado' });
+    await expect(button).toHaveClass('bg-red-600', 'px-8');
+    await expect(button).not.toHaveClass('bg-blue-600');
+    await expect(button).not.toHaveClass('px-4');
+  },
+};
