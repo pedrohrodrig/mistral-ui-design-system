@@ -17,20 +17,26 @@ export const Button: React.FC<ButtonProps> = ({
   onClick,
   className = '',
 }) => {
+  // Sem preflight, o botão precisa neutralizar sozinho os estilos nativos do
+  // navegador (borda, fonte e cursor).
   const baseClasses =
-    'inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none';
+    'mui:inline-flex mui:items-center mui:justify-center mui:rounded-md mui:border mui:font-sans mui:font-medium mui:cursor-pointer mui:transition-colors mui:focus-visible:outline-none mui:focus-visible:ring-2 mui:focus-visible:ring-blue-500 mui:focus-visible:ring-offset-2 mui:disabled:opacity-50 mui:disabled:pointer-events-none';
 
   const variantClasses = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700',
-    secondary: 'bg-gray-100 text-gray-900 hover:bg-gray-200',
-    outline: 'border border-gray-300 bg-transparent hover:bg-gray-50',
-    ghost: 'bg-transparent hover:bg-gray-100',
+    primary:
+      'mui:border-transparent mui:bg-blue-600 mui:text-white mui:hover:bg-blue-700',
+    secondary:
+      'mui:border-transparent mui:bg-gray-100 mui:text-gray-900 mui:hover:bg-gray-200',
+    outline:
+      'mui:border-gray-300 mui:bg-transparent mui:text-gray-900 mui:hover:bg-gray-50',
+    ghost:
+      'mui:border-transparent mui:bg-transparent mui:text-gray-900 mui:hover:bg-gray-100',
   };
 
   const sizeClasses = {
-    sm: 'h-8 px-3 text-sm',
-    md: 'h-10 px-4 py-2',
-    lg: 'h-12 px-6 text-lg',
+    sm: 'mui:h-8 mui:px-3 mui:text-sm',
+    md: 'mui:h-10 mui:px-4 mui:py-2 mui:text-base',
+    lg: 'mui:h-12 mui:px-6 mui:text-lg',
   };
 
   const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
