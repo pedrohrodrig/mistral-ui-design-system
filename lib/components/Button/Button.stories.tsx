@@ -130,8 +130,8 @@ export const Disabled: Story = {
 // Story com todos os tamanhos
 export const AllSizes: Story = {
   render: () => (
-    <div className='flex flex-col gap-4 items-center'>
-      <div className='flex gap-2 items-center'>
+    <div className='mui:flex mui:flex-col mui:gap-4 mui:items-center'>
+      <div className='mui:flex mui:gap-2 mui:items-center'>
         <Button variant='primary' size='sm'>
           Pequeno
         </Button>
@@ -149,8 +149,8 @@ export const AllSizes: Story = {
 // Story com todas as variações
 export const AllVariants: Story = {
   render: () => (
-    <div className='flex flex-col gap-4 items-center'>
-      <div className='flex gap-2 items-center'>
+    <div className='mui:flex mui:flex-col mui:gap-4 mui:items-center'>
+      <div className='mui:flex mui:gap-2 mui:items-center'>
         <Button variant='primary'>Primário</Button>
         <Button variant='secondary'>Secundário</Button>
         <Button variant='outline'>Outline</Button>

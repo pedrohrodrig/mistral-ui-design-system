@@ -130,3 +130,11 @@ npm run test:pre-commit
 
 - O `eslint-config-prettier` resolve conflitos automaticamente
 - Se houver problemas, execute `npm run format` antes de `npm run lint`
+
+## 🎨 Tailwind CSS
+
+A biblioteca usa Tailwind CSS v4 via `@tailwindcss/vite` (não há `tailwind.config.js` nem PostCSS).
+
+- O ponto de entrada é `lib/styles.css`, usado pelo build e pelo Storybook.
+- Todas as classes usam o prefixo `mui:` (ex.: `mui:bg-blue-600`, `mui:hover:bg-blue-700`). Isso isola a biblioteca do Tailwind das aplicações consumidoras.
+- O preflight (reset global) não é incluído. Cada componente deve neutralizar os estilos nativos do navegador de que depende.
