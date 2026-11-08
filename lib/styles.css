@@ -1,3 +1,18 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/*
+ * Tailwind CSS v4 da Mistral UI.
+ *
+ * - Sem preflight: o reset global fica a cargo de cada aplicação consumidora.
+ * - prefix(mui): utilitárias e variáveis da biblioteca ficam isoladas
+ *   (ex.: `mui:bg-blue-600`, `--mui-color-blue-600`) e não colidem com o
+ *   Tailwind das aplicações.
+ * - As utilitárias da biblioteca ficam na camada `components`. Como o Tailwind
+ *   das aplicações declara a mesma ordem de camadas, uma classe do app
+ *   (camada `utilities`) passada via `className` sempre vence a do componente,
+ *   independentemente da ordem de import dos CSS.
+ */
+@layer theme, base, components, utilities;
+
+@import 'tailwindcss/theme.css' layer(theme) prefix(mui);
+@import 'tailwindcss/utilities.css' layer(components) prefix(mui);
+
+@source './';
