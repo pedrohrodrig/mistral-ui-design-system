@@ -19,7 +19,7 @@ jobs:
 
   release:
     name: Build, versionamento e publicação no npm
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: ci
     permissions:
       contents: write # criar tag e GitHub Release
