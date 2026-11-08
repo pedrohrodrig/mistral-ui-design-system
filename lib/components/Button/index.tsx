@@ -6,7 +6,7 @@ import {
   buttonVariants,
   type ButtonSize,
   type ButtonVariant,
-} from './variants';
+} from './variants.js';
 
 export type { ButtonSize, ButtonVariant };
 

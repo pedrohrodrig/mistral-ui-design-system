@@ -9,6 +9,10 @@ const USE_CLIENT =
  * diretiva do código-fonte (trocando-a por espaços, para não deslocar o source
  * map) e a recoloca no topo do arquivo gerado para cada um deles. O App Router
  * do Next.js exige a diretiva nos componentes de cliente.
+ *
+ * Depende de `preserveModules`: cada módulo vira um arquivo próprio, então o
+ * `facadeModuleId` do chunk identifica o módulo de origem. Sem essa opção,
+ * módulos agrupados no mesmo chunk perderiam a diretiva.
  */
 export function preserveUseClient(): Plugin {
   const clientModules = new Set<string>();
