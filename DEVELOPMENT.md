@@ -137,6 +137,45 @@ npm run test:pre-commit
    npm run pre-commit
    ```
 
+## 🚀 CI e publicação
+
+### CI (`.github/workflows/ci.yml`)
+
+Roda em todo Pull Request, para qualquer branch de destino, com três jobs paralelos:
+
+- **Lint e formatação**: `npm run lint` e `npm run format:check`
+- **Testes**: `npm run test:coverage` (o relatório de cobertura fica como artefato do run)
+- **Build**: `npm run build`
+
+### Release (`.github/workflows/release.yml`)
+
+Roda a cada push na `master` (ou manualmente via _Run workflow_). Como o repositório segue git flow, a `master` só
+recebe merges de branches `release/*` (ou `hotfix/*`), então uma versão só é publicada quando uma release é
+fechada, nunca a cada commit:
+
+1. Features entram na `dev` via PR a partir de `feature/*`.
+2. Para publicar, crie `release/x.y` a partir da `dev` e abra um PR para a `master`.
+3. O merge na `master` dispara a release; depois faça o merge da `master` de volta na `dev`.
+
+O workflow executa a CI completa e, se passar, o
+[semantic-release](https://semantic-release.gitbook.io/) calcula a próxima versão a partir das mensagens de
+commit, publica o pacote no npm, cria a tag `vX.Y.Z` e a GitHub Release com as notas geradas.
+
+A versão segue [Conventional Commits](https://www.conventionalcommits.org/pt-br/):
+
+| Commit                                                   | Versão                    |
+| -------------------------------------------------------- | ------------------------- |
+| `fix: ...`                                               | patch (`1.0.0` → `1.0.1`) |
+| `feat: ...`                                              | minor (`1.0.0` → `1.1.0`) |
+| `feat!: ...` ou rodapé `BREAKING CHANGE:`                | major (`1.0.0` → `2.0.0`) |
+| `chore:`, `docs:`, `refactor:`, `test:`, `style:`, `ci:` | sem release               |
+
+A versão publicada vem das tags git, então o `version` do `package.json` fica fixo em `0.0.0-semantic-release`
+e nenhum commit de bump é empurrado para a `master` (que é protegida).
+
+**Configuração necessária:** adicionar o secret `NPM_TOKEN` no repositório (Settings → Secrets and variables →
+Actions) com um token granular do npm com permissão de escrita no escopo `@mistral-ui`.
+
 ## ⚠️ Troubleshooting
 
 ### ESLint não reconhece imports

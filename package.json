@@ -1,7 +1,14 @@
 {
-  "name": "mistral-ui",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@mistral-ui/design-system",
+  "version": "0.0.0-semantic-release",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pedrohrodrig/mistral-ui-design-system.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "type": "module",
   "main": "./dist/mistral-ui.umd.cjs",
   "module": "./dist/mistral-ui.js",
@@ -14,14 +21,13 @@
       "import": "./dist/mistral-ui.js",
       "require": "./dist/mistral-ui.umd.cjs"
     },
-    "./styles.css": "./lib/styles.css"
+    "./styles.css": "./dist/mistral-ui.css"
   },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "publish": "npm run build && npm publish",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "format": "prettier --write .",
@@ -67,6 +73,7 @@
     "playwright": "^1.54.2",
     "postcss": "^8.5.6",
     "prettier": "^3.3.3",
+    "semantic-release": "^25.0.9",
     "storybook": "^9.1.2",
     "tailwindcss": "^4.3.3",
     "typescript": "~5.8.3",
