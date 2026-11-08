@@ -149,7 +149,15 @@ Roda em todo Pull Request, para qualquer branch de destino, com três jobs paral
 
 ### Release (`.github/workflows/release.yml`)
 
-Roda a cada push na `master` (ou manualmente via _Run workflow_). Executa a CI completa e, se passar, o
+Roda a cada push na `master` (ou manualmente via _Run workflow_). Como o repositório segue git flow, a `master` só
+recebe merges de branches `release/*` (ou `hotfix/*`), então uma versão só é publicada quando uma release é
+fechada, nunca a cada commit:
+
+1. Features entram na `dev` via PR a partir de `feature/*`.
+2. Para publicar, crie `release/x.y` a partir da `dev` e abra um PR para a `master`.
+3. O merge na `master` dispara a release; depois faça o merge da `master` de volta na `dev`.
+
+O workflow executa a CI completa e, se passar, o
 [semantic-release](https://semantic-release.gitbook.io/) calcula a próxima versão a partir das mensagens de
 commit, publica o pacote no npm, cria a tag `vX.Y.Z` e a GitHub Release com as notas geradas.
 
@@ -166,7 +174,7 @@ A versão publicada vem das tags git, então o `version` do `package.json` fica 
 e nenhum commit de bump é empurrado para a `master` (que é protegida).
 
 **Configuração necessária:** adicionar o secret `NPM_TOKEN` no repositório (Settings → Secrets and variables →
-Actions) com um token granular do npm com permissão de escrita para o pacote.
+Actions) com um token granular do npm com permissão de escrita no escopo `@mistral-ui`.
 
 ## ⚠️ Troubleshooting
 
