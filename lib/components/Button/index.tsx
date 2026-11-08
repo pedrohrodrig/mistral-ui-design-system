@@ -18,8 +18,10 @@ export interface ButtonProps extends BaseButton.Props {
  *
  * Aceita todas as props do Base UI (`render`, `focusableWhenDisabled`,
  * `className` como função do estado, etc.) além de `variant` e `size`.
- * As classes são combinadas com tailwind-variants, então um `className`
- * do consumidor sobrescreve as classes conflitantes do componente.
+ * As classes são combinadas com tailwind-variants: classes `mui:` passadas em
+ * `className` substituem as conflitantes do componente. Classes do Tailwind da
+ * aplicação (sem prefixo) vencem pela camada CSS, já que os estilos da
+ * biblioteca ficam na camada `components`.
  */
 export function Button({
   variant,

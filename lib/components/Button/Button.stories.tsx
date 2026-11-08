@@ -139,8 +139,8 @@ export const Disabled: Story = {
 // Story com todos os tamanhos
 export const AllSizes: Story = {
   render: () => (
-    <div className='flex flex-col gap-4 items-center'>
-      <div className='flex gap-2 items-center'>
+    <div className='mui:flex mui:flex-col mui:gap-4 mui:items-center'>
+      <div className='mui:flex mui:gap-2 mui:items-center'>
         <Button variant='primary' size='sm'>
           Pequeno
         </Button>
@@ -158,8 +158,8 @@ export const AllSizes: Story = {
 // Story com todas as variações
 export const AllVariants: Story = {
   render: () => (
-    <div className='flex flex-col gap-4 items-center'>
-      <div className='flex gap-2 items-center'>
+    <div className='mui:flex mui:flex-col mui:gap-4 mui:items-center'>
+      <div className='mui:flex mui:gap-2 mui:items-center'>
         <Button variant='primary'>Primário</Button>
         <Button variant='secondary'>Secundário</Button>
         <Button variant='outline'>Outline</Button>
@@ -242,16 +242,18 @@ export const FocusableWhenDisabledInteraction: Story = {
   },
 };
 
-// Teste: `className` do consumidor sobrescreve classes conflitantes (tailwind-merge)
+// Teste: classes `mui:` em `className` substituem as conflitantes do
+// componente (tailwind-merge)
 export const ClassNameOverride: Story = {
   args: {
     children: 'Customizado',
-    className: 'bg-red-600 px-8',
+    className: 'mui:bg-red-600 mui:px-8',
   },
   play: async ({ canvas }) => {
     const button = canvas.getByRole('button', { name: 'Customizado' });
-    await expect(button).toHaveClass('bg-red-600', 'px-8');
-    await expect(button).not.toHaveClass('bg-blue-600');
-    await expect(button).not.toHaveClass('px-4');
+    await expect(button).toHaveClass('mui:bg-red-600', 'mui:px-8');
+    await expect(button).not.toHaveClass('mui:bg-blue-600');
+    await expect(button).not.toHaveClass('mui:px-4');
+    await expect(getComputedStyle(button).paddingLeft).toBe('32px');
   },
 };
