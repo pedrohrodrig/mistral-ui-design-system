@@ -11,7 +11,7 @@ permissions:
 jobs:
   test-and-lint:
     name: Test and Lint
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -48,7 +48,7 @@ jobs:
 
   release:
     name: Creating Release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: test-and-lint
     if: github.ref == 'refs/heads/master'
 
