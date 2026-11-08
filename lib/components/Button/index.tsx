@@ -26,7 +26,7 @@ export interface ButtonProps extends BaseButton.Props {
 export function Button({
   variant,
   size,
-  children = 'Clique aqui',
+  children,
   className,
   ...props
 }: ButtonProps) {
