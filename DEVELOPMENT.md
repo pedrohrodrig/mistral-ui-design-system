@@ -136,6 +136,6 @@ npm run test:pre-commit
 A biblioteca usa Tailwind CSS v4 via `@tailwindcss/vite` (não há `tailwind.config.js` nem PostCSS).
 
 - O ponto de entrada é `lib/styles.css`, usado pelo build e pelo Storybook.
-- Todas as classes usam o prefixo `mui:` (ex.: `mui:bg-blue-600`, `mui:hover:bg-blue-700`). Isso isola a biblioteca do Tailwind das aplicações consumidoras.
+- Todas as classes usam o prefixo `mui:` (ex.: `mui:bg-blue-600`, `mui:hover:bg-blue-700`). Isso evita colisão de classes e de variáveis de tema com o Tailwind das aplicações consumidoras. As variáveis internas do Tailwind (`--tw-*`, como as de ring e sombra) não recebem prefixo e são compartilhadas com o app, o que na prática não causa conflito.
 - As utilitárias da biblioteca ficam na camada CSS `components`. Assim, uma classe do Tailwind da aplicação passada em `className` (camada `utilities`) sempre sobrescreve a do componente, qualquer que seja a ordem de import dos CSS.
 - O preflight (reset global) não é incluído. Cada componente deve neutralizar os estilos nativos do navegador de que depende.
