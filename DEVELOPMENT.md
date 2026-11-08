@@ -32,6 +32,30 @@ Este documento descreve as configurações de formatação e linting do projeto.
 - **Linting**: ESLint com correções automáticas
 - **Bloqueio**: Commit cancelado se houver erros
 
+## 🧱 Primitives (Base UI)
+
+Os componentes do Mistral UI são construídos sobre os primitives headless do
+[Base UI](https://base-ui.com/react/overview/quick-start) (`@base-ui/react`).
+O Base UI cuida de acessibilidade, teclado e estados; o Mistral UI adiciona
+apenas a camada visual (Tailwind) e uma API de variações.
+
+Convenções ao criar ou refatorar um componente:
+
+- Importe o primitive pelo subpath (`@base-ui/react/button`) para manter o
+  bundle pequeno.
+- Estenda as props do primitive (`BaseButton.Props`) para expor `render`,
+  `className` como função do estado e as demais props do Base UI.
+- Estilize estados pelos data attributes do Base UI (`data-[disabled]`,
+  `data-[pressed]`, `data-[open]`…) em vez de pseudo-classes como `:disabled`.
+- Defina variações e combine classes com
+  [tailwind-variants](https://www.tailwind-variants.org) (`tv`), que usa o
+  tailwind-merge para resolver conflitos. Classes com o prefixo `mui:` são
+  resolvidas entre si sem configuração extra (`mui:bg-red-600` substitui
+  `mui:bg-blue-600`). Repasse o `className` do consumidor
+  (string ou função do estado) para o `tv`, assim ele sobrescreve as classes
+  do componente.
+- `@base-ui/react` é tratado como dependência externa no build da lib.
+
 ## 📝 Scripts Disponíveis
 
 ### Formatação

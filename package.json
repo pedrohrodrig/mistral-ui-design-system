@@ -32,8 +32,11 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@base-ui/react": "^1.9.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "tailwind-merge": "^3.7.0",
+    "tailwind-variants": "^3.3.1",
     "vite-tsconfig-paths": "^5.1.4"
   },
   "devDependencies": {
