@@ -137,6 +137,18 @@ npm run test:pre-commit
    npm run pre-commit
    ```
 
+## 📦 Build e empacotamento
+
+`npm run build` gera a pasta `dist/`, que é o que vai para o npm:
+
+- `dist/index.js` e um arquivo `.js` por módulo (`preserveModules`), somente ESM. React, Base UI, tailwind-variants e tailwind-merge ficam fora do bundle.
+- `dist/**/*.d.ts`, gerados pelo `tsc -p tsconfig.build.json`.
+- `dist/styles.css`, o CSS compilado do Tailwind, exportado como `@mistral-ui/design-system/styles.css`.
+
+Componentes que usam estado, efeitos ou recebem funções como props (todos os que usam Base UI) precisam começar com `'use client';`. O plugin `scripts/preserve-use-client.ts` mantém essa diretiva no arquivo gerado, já que o Rollup a removeria.
+
+Para testar a biblioteca em uma aplicação sem publicar, gere o pacote com `npm pack` e instale o `.tgz` na aplicação (`npm install ../mistral-ui-design-system/mistral-ui-design-system-<versão>.tgz`).
+
 ## 🚀 CI e publicação
 
 ### CI (`.github/workflows/ci.yml`)
