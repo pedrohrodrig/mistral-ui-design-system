@@ -11,25 +11,38 @@ Este documento descreve as configurações de formatação e linting do projeto.
 - **Quebra de linha**: LF (Unix)
 - **Final de arquivo**: Nova linha obrigatória
 
-### Prettier
+### Node.js
+
+- **Versão**: 26 LTS (fixada em `.nvmrc`, usada também pela CI)
+- Use `nvm use` (ou `fnm use`) na raiz do projeto para ativar a versão certa
+- O `devEngines` do `package.json` faz o `npm install` falhar em versões abaixo da 26.13.0
+
+### Oxfmt (formatação)
+
+[Oxfmt](https://oxc.rs/docs/guide/usage/formatter.html) substitui o Prettier, com saída compatível e
+configuração em `.oxfmtrc.json`:
 
 - **Aspas**: Simples (`'`)
 - **Indentação**: 2 espaços
 - **Largura máxima**: 80 caracteres
 - **Ponto e vírgula**: Sempre
 - **Vírgula final**: ES5
+- **Organização de imports**: feita pelo formatador (`sortImports`), em grupos
+  builtin → external → internal → parent → sibling → index, separados por linha em branco
 
-### ESLint
+### Oxlint (linting)
 
-- **Organização de imports**: Automática
-- **Regras React**: Otimizadas
-- **Integração**: Compatível com Prettier
+[Oxlint](https://oxc.rs/docs/guide/usage/linter.html) substitui o ESLint, com configuração em `.oxlintrc.json`:
+
+- **Base**: categoria `correctness` como erro + regras recomendadas do `typescript-eslint`
+- **React**: regras de hooks (`rules-of-hooks`, `exhaustive-deps`) e `only-export-components` (Fast Refresh)
+- **Imports**: `import/no-duplicates`
 
 ### Pre-commit Hook
 
 - **Execução automática**: Antes de cada commit
-- **Formatação**: Prettier em arquivos modificados
-- **Linting**: ESLint com correções automáticas
+- **Formatação**: Oxfmt em arquivos modificados
+- **Linting**: Oxlint com correções automáticas
 - **Bloqueio**: Commit cancelado se houver erros
 
 ## 🧱 Primitives (Base UI)
@@ -71,11 +84,11 @@ npm run format:check
 ### Linting
 
 ```bash
-# Executar ESLint
+# Executar Oxlint
 npm run lint
 
-# Executar ESLint com correções automáticas
-npx eslint . --fix
+# Executar Oxlint com correções automáticas
+npm run lint:fix
 ```
 
 ### Pre-commit
@@ -92,8 +105,7 @@ npm run test:pre-commit
 
 ### Extensões Recomendadas
 
-- Prettier - Code formatter
-- ESLint
+- Oxc (`oxc.oxc-vscode`): lint e formatação
 - Tailwind CSS IntelliSense
 - TypeScript Importer
 
@@ -101,14 +113,14 @@ npm run test:pre-commit
 
 - Formatação ao salvar
 - Organização de imports ao salvar
-- Correção automática do ESLint
+- Correção automática do Oxlint
 
 ## 📁 Arquivos de Configuração
 
 - `.editorconfig` - Configurações globais do editor
-- `.prettierrc` - Configurações do Prettier
-- `.prettierignore` - Arquivos ignorados pelo Prettier
-- `eslint.config.js` - Configurações do ESLint
+- `.nvmrc` - Versão do Node.js
+- `.oxfmtrc.json` - Configurações do Oxfmt (inclui os arquivos ignorados)
+- `.oxlintrc.json` - Configurações do Oxlint
 - `.lintstagedrc` - Configurações do lint-staged
 - `.husky/pre-commit` - Hook de pre-commit
 - `.vscode/settings.json` - Configurações do VS Code
@@ -123,7 +135,7 @@ npm run test:pre-commit
 2. **Durante o desenvolvimento:**
    - O VS Code formatará automaticamente ao salvar
    - Os imports serão organizados automaticamente
-   - O ESLint mostrará warnings/errors em tempo real
+   - O Oxlint mostrará warnings/errors em tempo real
 
 3. **Antes de commitar:**
    - O pre-commit hook executará automaticamente
@@ -178,21 +190,16 @@ Actions) com um token granular do npm com permissão de escrita no escopo `@mist
 
 ## ⚠️ Troubleshooting
 
-### ESLint não reconhece imports
+### O Oxlint não mostra nada
 
-- Alguns warnings sobre imports não resolvidos são normais
-- Para imports internos do projeto, use caminhos relativos
+- Sem problemas encontrados, o `oxlint` termina em silêncio com código 0
+- Use `npx oxlint -f stylish` para ver o resumo
 
-### Prettier não está formatando
+### O editor não está formatando
 
-- Verifique se a extensão Prettier está instalada
-- Certifique-se de que o Prettier é o formatador padrão
+- Verifique se a extensão Oxc está instalada
+- Defina a extensão Oxc como formatador padrão do VS Code
 - Execute `npm run format` manualmente se necessário
-
-### Conflitos entre ESLint e Prettier
-
-- O `eslint-config-prettier` resolve conflitos automaticamente
-- Se houver problemas, execute `npm run format` antes de `npm run lint`
 
 ## 🎨 Tailwind CSS
 
