@@ -147,6 +147,22 @@ Roda em todo Pull Request, para qualquer branch de destino, com três jobs paral
 - **Testes**: `npm run test:coverage` (o relatório de cobertura fica como artefato do run)
 - **Build**: `npm run build`
 
+### Segurança (`.github/workflows/security.yml`)
+
+Usa o [Trivy](https://trivy.dev/) para analisar o repositório (`trivy fs`): vulnerabilidades conhecidas nas
+dependências do `package-lock.json` e segredos commitados por engano. Roda em todo Pull Request, a cada push na
+`dev`, toda segunda-feira às 06:00 UTC (para pegar CVEs novas em dependências que não mudaram) e antes de cada
+release.
+
+- **Falha** se encontrar qualquer vulnerabilidade `HIGH` ou `CRITICAL` (inclusive sem correção disponível) ou um
+  segredo exposto; a tabela com os achados aparece no log do job.
+- O relatório completo (todas as severidades) é enviado em SARIF para **Security → Code scanning**. Em repositório
+  privado isso exige GitHub Advanced Security; sem ele o envio é ignorado e o pipeline continua.
+- Para aceitar um achado conscientemente (falso positivo, código não alcançável), crie um `.trivyignore` na raiz com
+  o ID da CVE e um comentário com o motivo.
+
+Rodando localmente: `trivy fs --scanners vuln,secret --severity HIGH,CRITICAL --exit-code 1 .`
+
 ### Release (`.github/workflows/release.yml`)
 
 Roda a cada push na `master` (ou manualmente via _Run workflow_). Como o repositório segue git flow, a `master` só
@@ -157,7 +173,7 @@ fechada, nunca a cada commit:
 2. Para publicar, crie `release/x.y` a partir da `dev` e abra um PR para a `master`.
 3. O merge na `master` dispara a release; depois faça o merge da `master` de volta na `dev`.
 
-O workflow executa a CI completa e, se passar, o
+O workflow executa a CI completa e a análise de segurança e, se ambas passarem, o
 [semantic-release](https://semantic-release.gitbook.io/) calcula a próxima versão a partir das mensagens de
 commit, publica o pacote no npm, cria a tag `vX.Y.Z` e a GitHub Release com as notas geradas.
 

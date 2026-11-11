@@ -1,0 +1,64 @@
+name: Segurança
+
+on:
+  pull_request:
+  push:
+    branches: [dev] # na master, roda via release.yml antes da publicação
+  schedule:
+    - cron: '0 6 * * 1' # toda segunda-feira, 06:00 UTC (novas CVEs em dependências já existentes)
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  trivy:
+    name: Trivy (dependências e segredos)
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      security-events: write # enviar o relatório SARIF para a aba Security
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      # Relatório completo para a aba Security > Code scanning (não falha o job).
+      - name: Trivy (relatório SARIF)
+        # aquasecurity/trivy-action v0.36.0 fixado por SHA (tags do projeto já foram adulteradas no passado)
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln,secret
+          format: sarif
+          output: trivy-results.sarif
+          exit-code: '0'
+
+      - name: Enviar relatório para o GitHub Security
+        if: always() && hashFiles('trivy-results.sarif') != ''
+        # Code scanning exige GitHub Advanced Security em repositórios privados; não bloqueia o pipeline.
+        continue-on-error: true
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: trivy-results.sarif
+          category: trivy
+
+      # Gate: falha o pipeline se houver vulnerabilidade HIGH ou CRITICAL.
+      - name: Trivy (falha em HIGH/CRITICAL)
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25
+        env:
+          TRIVY_SKIP_DB_UPDATE: true # reaproveita o banco baixado no passo anterior
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln,secret
+          severity: HIGH,CRITICAL
+          format: table
+          exit-code: '1'
