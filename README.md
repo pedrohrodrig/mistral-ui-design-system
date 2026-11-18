@@ -53,4 +53,6 @@ npm test            # testes das stories no Chromium (Vitest + Playwright)
 npm run build       # gera dist/ (JS, .d.ts e styles.css)
 ```
 
+Lint e formatação usam [Oxlint](https://oxc.rs/docs/guide/usage/linter.html) e [Oxfmt](https://oxc.rs/docs/guide/usage/formatter.html), com Node.js 26 LTS (veja `.nvmrc`).
+
 Convenções de código, CI e o fluxo de publicação com semantic-release estão em [DEVELOPMENT.md](./DEVELOPMENT.md).
