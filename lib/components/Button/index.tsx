@@ -1,10 +1,12 @@
+'use client';
+
 import { Button as BaseButton } from '@base-ui/react/button';
 
 import {
   buttonVariants,
   type ButtonSize,
   type ButtonVariant,
-} from './variants';
+} from './variants.js';
 
 export type { ButtonSize, ButtonVariant };
 

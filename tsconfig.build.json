@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.build.tsbuildinfo",
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "rootDir": "./lib",
+    "outDir": "./dist"
+  },
+  "include": ["lib"],
+  "exclude": ["lib/**/*.stories.tsx", "lib/**/*.test.ts", "lib/**/*.test.tsx"]
+}
