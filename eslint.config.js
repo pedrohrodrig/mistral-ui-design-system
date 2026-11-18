@@ -29,6 +29,14 @@ export default tseslint.config(
       plugins: {
         import: importPlugin,
       },
+      settings: {
+        'import/resolver': {
+          typescript: {
+            project: './tsconfig.json',
+          },
+          node: true,
+        },
+      },
       rules: {
         // Regras de organização de imports
         'import/order': [
